@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<link rel="stylesheet" href="css/style.css" />
+<title>Add styles made with Mapbox Studio using styleLayer</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+
+<style>
+  #map {
+      position: absolute;
+      right: 0px;
+      left: 400px;
+      height: 100%;
+      top: 0;
+  }
+    .sidebar {
+      position: absolute;
+      left: 0px;
+      width: 400px;
+      top: 0;
+      bottom: 0;
+      overflow-y: auto;
+      padding: 20px;
+      font-size: 16px;
+      background-color: black;
+  }
+</style>
+
+</head>
+<body>
+  <div class="sidebar">
+    <div id="intro">
+      <h1 id ="header">NYC Subway Lines by Satellite</h1>
+      <p class="main">I used MapBox to replace the base map and overlay a GeoJSON as a new feature layer.</p>
+    </div>
+  </div>
+<div id='map'></div>
+</body>
+
+<script>
+L.mapbox.accessToken = 'pk.eyJ1IjoiY2xhaXJlZG91Z2xhc3MiLCJhIjoiY2owYmIxaXlkMDM0ODMzbjMwZ3MwaDBjMSJ9.PrFPpLsNtOa3vWtHzw4Gjg';
+var map = L.mapbox.map('map')
+    .setView([40.733110, -73.980036], 12);
+
+// Used styleLayer to add a Mapbox style created in Mapbox Studio
+var newStyle = L.mapbox.styleLayer('mapbox://styles/mapbox/satellite-v9').addTo(map);
+// Load GeoJson and overlay it onto new MapBox Style
+var featureLayer = L.mapbox.featureLayer().addTo(map);
+featureLayer.loadURL('https://raw.githubusercontent.com/clairedouglass/midterm/master/Subway%20Lines.geojson');
+
+//Struggling to make these commands work
+featureLayer.setGeoJSON({
+  type: "FeatureCollection",
+  features: [{
+    properties: {color: 'red'}
+  }]
+});
+var location = L.marker[(40.733110, -73.980036)].addTo(map);
+</script>
+</html>
